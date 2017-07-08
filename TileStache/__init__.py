@@ -406,7 +406,7 @@ class WSGITileServer:
 
         status_code, headers, content = requestHandler2(self.config, path_info, query_string, script_name)
 
-        return self._response(start_response, status_code, str(content), headers)
+        return self._response(start_response, status_code, content, headers)
 
     def _response(self, start_response, code, content='', headers=None):
         """
@@ -414,10 +414,10 @@ class WSGITileServer:
         headers = headers or Headers([])
 
         # TODO: find out why does "content" start with b'...
-        content = re.sub(r"^b'(.+)'$", r"\1", content)
+        # content = re.sub(r"^b'(.+)'$", r"\1", content)
 
         # dummy JSON linting
-        content = re.sub(r"\\", r"", content)
+        # content = re.sub(r"\\", r"", content)
 
         if type(content) not in (bytes, bytearray):
             content = content.encode('utf-8')
